@@ -3,14 +3,20 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 
 import '../difficult_cubit/difficult_cubit.dart';
+import '../record_cubit/record_games_cubit.dart';
 
 part 'game_state.dart';
 
 class GameCubit extends Cubit<GameState> {
   final DifficultCubit difficultCubit;
+  final RecordGamesCubit recordGamesCubit;
+
   late final StreamSubscription _difficultSubscription;
 
-  GameCubit(this.difficultCubit) : super(initialGameState()) {
+  GameCubit({
+    required this.difficultCubit,
+    required this.recordGamesCubit,
+  }) : super(initialGameState()) {
     _difficultSubscription = difficultCubit.stream.listen((difficultState) {
       _initNewGame(difficultState);
     });
@@ -48,7 +54,8 @@ class GameCubit extends Cubit<GameState> {
     } else if (state.secretNumber < userNumber) {
       emit(state.addLessThan(userNumber).copyWithOneLessAttempt());
     } else {
-      print('exito');
+      // Exito
+      recordGamesCubit.addNewValue(true, userNumber);
     }
   }
 }

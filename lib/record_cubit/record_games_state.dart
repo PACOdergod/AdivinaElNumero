@@ -15,7 +15,7 @@ class RecordGamesState {
     );
   }
 
-  RecordGamesState addNewValue(bool success, int value) {
+  RecordGamesState copyWithNewValue(bool success, int value) {
     return copyWith(values: [...values, (success, value)]);
   }
 }
