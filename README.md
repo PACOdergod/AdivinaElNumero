@@ -1,2 +1,2 @@
 # TODO:
-- Copiar la UI del video
+- Copiar la UI del video (80%)
