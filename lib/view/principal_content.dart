@@ -65,7 +65,7 @@ class PrincipalContent extends HookWidget {
             Expanded(
               child: BlocBuilder<GameCubit, GameState>(
                 builder: (context, state) {
-                  return CustomContainerList(
+                  return _CustomContainerList(
                     title: 'Mayor que',
                     childs: state.greaterThan
                         .map((e) => Text(
@@ -84,7 +84,7 @@ class PrincipalContent extends HookWidget {
             Expanded(
               child: BlocBuilder<GameCubit, GameState>(
                 builder: (context, state) {
-                  return CustomContainerList(
+                  return _CustomContainerList(
                     title: 'Menor que',
                     childs: state.lessThan
                         .map((e) => Text(
@@ -101,7 +101,7 @@ class PrincipalContent extends HookWidget {
             ),
             const SizedBox(width: 15),
             Expanded(
-              child: CustomContainerList(
+              child: _CustomContainerList(
                 title: 'Historial',
                 childs: [],
               ),
@@ -114,8 +114,8 @@ class PrincipalContent extends HookWidget {
   }
 }
 
-class CustomContainerList extends StatelessWidget {
-  const CustomContainerList({
+class _CustomContainerList extends StatelessWidget {
+  const _CustomContainerList({
     super.key,
     required this.title,
     required this.childs,

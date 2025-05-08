@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../difficult_cubit/difficult_cubit.dart';
+import '../game_cubit/game_cubit.dart';
 import 'principal_content.dart';
 
 class PrincipalPage extends StatelessWidget {

@@ -17,7 +17,10 @@ class MyApp extends StatelessWidget {
       home: MultiBlocProvider(
         providers: [
           BlocProvider(create: (context) => DifficultCubit()),
-          BlocProvider(create: (context) => GameCubit()),
+          BlocProvider(
+            create: (context) =>
+                GameCubit(BlocProvider.of<DifficultCubit>(context)),
+          ),
         ],
         child: const PrincipalPage(),
       ),
