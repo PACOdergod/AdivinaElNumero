@@ -12,12 +12,14 @@ class GameCubit extends Cubit<GameState> {
   final RecordGamesCubit recordGamesCubit;
 
   late final StreamSubscription _difficultSubscription;
+  DifficultState? lastDifficultState;
 
   GameCubit({
     required this.difficultCubit,
     required this.recordGamesCubit,
   }) : super(initialGameState()) {
     _difficultSubscription = difficultCubit.stream.listen((difficultState) {
+      lastDifficultState = difficultState;
       _initNewGame(difficultState);
     });
   }
@@ -55,7 +57,18 @@ class GameCubit extends Cubit<GameState> {
       emit(state.addLessThan(userNumber).copyWithOneLessAttempt());
     } else {
       // Exito
-      recordGamesCubit.addNewValue(true, userNumber);
+      _onSuccess(userNumber);
     }
+  }
+
+  void _onSuccess(int userNumber) {
+    recordGamesCubit.addNewValue(true, userNumber);
+
+    final newState = GameState(
+        greaterThan: [],
+        lessThan: [],
+        attempts: lastDifficultState?.attempts ?? 5,
+        secretNumber: _generateRandomNumber(lastDifficultState?.maximum ?? 10));
+    emit(newState);
   }
 }
