@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 import 'package:desafio/game_cubit/game_cubit.dart';
+import 'package:desafio/record_cubit/record_games_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -109,9 +110,21 @@ class PrincipalContent extends HookWidget {
             ),
             const SizedBox(width: 15),
             Expanded(
-              child: _CustomContainerList(
-                title: 'Historial',
-                childs: [],
+              child: BlocBuilder<RecordGamesCubit, RecordGamesState>(
+                builder: (context, state) {
+                  return _CustomContainerList(
+                    title: 'Historial',
+                    childs: state.values
+                        .map((e) => Text(
+                              e.$2.toString(),
+                              style: TextStyle(
+                                  fontSize: 21,
+                                  fontWeight: FontWeight.w600,
+                                  color: e.$1 ? Colors.green : Colors.red),
+                            ))
+                        .toList(),
+                  );
+                },
               ),
             ),
             const SizedBox(width: 15),
