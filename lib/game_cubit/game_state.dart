@@ -13,9 +13,6 @@ class GameState {
     required this.secretNumber,
   });
 
-  factory GameState.empty() => const GameState(
-      greaterThan: [], lessThan: [], attempts: 0, secretNumber: 0);
-
   GameState copyWith({
     List<int>? greaterThan,
     List<int>? lessThan,

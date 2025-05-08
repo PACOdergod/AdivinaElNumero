@@ -1,7 +1,8 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
-import 'package:desafio/difficult_cubit/difficult_cubit.dart';
+
+import '../difficult_cubit/difficult_cubit.dart';
 
 part 'game_state.dart';
 
@@ -9,10 +10,18 @@ class GameCubit extends Cubit<GameState> {
   final DifficultCubit difficultCubit;
   late final StreamSubscription _difficultSubscription;
 
-  GameCubit(this.difficultCubit) : super(GameState.empty()) {
+  GameCubit(this.difficultCubit) : super(initialGameState()) {
     _difficultSubscription = difficultCubit.stream.listen((difficultState) {
       _initNewGame(difficultState);
     });
+  }
+
+  static GameState initialGameState() {
+    return GameState(
+        greaterThan: [],
+        lessThan: [],
+        attempts: 5,
+        secretNumber: _generateRandomNumber(10));
   }
 
   void _initNewGame(DifficultState difficultState) {
@@ -20,10 +29,10 @@ class GameCubit extends Cubit<GameState> {
         greaterThan: [],
         lessThan: [],
         attempts: difficultState.attempts,
-        secretNumber: _generateRandomNumber(difficultState)));
+        secretNumber: _generateRandomNumber(difficultState.maximum)));
   }
 
-  int _generateRandomNumber(DifficultState difficultState) {
+  static int _generateRandomNumber(int maximum) {
     return 5;
   }
 
