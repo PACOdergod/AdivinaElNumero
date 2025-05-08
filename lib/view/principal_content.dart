@@ -47,6 +47,7 @@ class PrincipalContent extends HookWidget {
                 inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                 keyboardType: TextInputType.number,
                 onSubmitted: (value) {
+                  numberController.clear();
                   _onSubmittValue(context, value);
                 },
               ),
@@ -121,8 +122,9 @@ class PrincipalContent extends HookWidget {
   }
 
   void _onSubmittValue(BuildContext context, String value) {
-    final _ = int.tryParse(value);
-    gameCubit.onSubmittValue(0);
+    final number = int.tryParse(value) ?? 1;
+
+    gameCubit.onSubmittValue(number);
   }
 }
 
