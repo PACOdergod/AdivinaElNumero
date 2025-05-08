@@ -13,4 +13,24 @@ class GameState {
 
   factory GameState.empty() =>
       const GameState(greaterThan: [], lessThan: [], attempts: 0);
+
+  GameState copyWith({
+    List<int>? greaterThan,
+    List<int>? lessThan,
+    int? attempts,
+  }) {
+    return GameState(
+      greaterThan: greaterThan ?? this.greaterThan,
+      lessThan: lessThan ?? this.lessThan,
+      attempts: attempts ?? this.attempts,
+    );
+  }
+
+  GameState addGreaterThan(int newValue) {
+    return copyWith(greaterThan: [...greaterThan, newValue]);
+  }
+
+  GameState addLessThan(int newValue) {
+    return copyWith(lessThan: [...lessThan, newValue]);
+  }
 }
