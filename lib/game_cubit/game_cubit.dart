@@ -23,7 +23,7 @@ class GameCubit extends Cubit<GameState> {
       lastDifficultState = difficultState;
       _initNewGame(difficultState);
     });
-    difficultCubit.reemitCurrentState();
+    _initNewGame(DifficultStateEasy());
   }
 
   @override
@@ -34,8 +34,8 @@ class GameCubit extends Cubit<GameState> {
 
   void _initNewGame(DifficultState difficultState) {
     emit(GameState(
-        greaterThan: [],
-        lessThan: [],
+        greaterThan: const [],
+        lessThan: const [],
         attempts: difficultState.attempts,
         secretNumber: _generateRandomNumber(difficultState.maximum)));
   }
@@ -58,6 +58,6 @@ class GameCubit extends Cubit<GameState> {
   void _onSuccess(int userNumber) {
     recordGamesCubit.addNewValue(true, userNumber);
 
-    difficultCubit.reemitCurrentState();
+    _initNewGame(lastDifficultState ?? DifficultStateEasy());
   }
 }
