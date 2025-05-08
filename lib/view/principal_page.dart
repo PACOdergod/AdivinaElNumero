@@ -43,7 +43,7 @@ class BodyPage extends StatelessWidget {
         const SizedBox(height: 20),
         BlocBuilder<DifficultCubit, DifficultState>(
           builder: (context, state) {
-            return PrincipalContent(state, key: GlobalKey());
+            return PrincipalContent(key: GlobalKey());
           },
         ),
         const SizedBox(height: 50),

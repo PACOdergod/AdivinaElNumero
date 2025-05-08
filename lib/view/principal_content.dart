@@ -4,12 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 
-import '../difficult_cubit/difficult_cubit.dart';
-
 class PrincipalContent extends HookWidget {
-  const PrincipalContent(this.state, {super.key});
-
-  final DifficultState state;
+  const PrincipalContent({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -44,17 +40,22 @@ class PrincipalContent extends HookWidget {
                   hintStyle: const TextStyle(color: Colors.grey),
                 ),
                 onSubmitted: (value) {
-                  gameCubit.onSubmittValue(value);
+                  final _ = int.tryParse(value);
+                  gameCubit.onSubmittValue(0);
                 },
               ),
             ),
-            Text(
-              'Intentos\n${state.attempts}',
-              style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w600,
-                  color: Colors.white),
-              textAlign: TextAlign.center,
+            BlocBuilder<GameCubit, GameState>(
+              builder: (context, state) {
+                return Text(
+                  'Intentos\n${state.attempts}',
+                  style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.white),
+                  textAlign: TextAlign.center,
+                );
+              },
             )
           ],
         ),

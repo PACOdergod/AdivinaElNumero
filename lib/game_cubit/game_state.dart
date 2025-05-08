@@ -30,6 +30,10 @@ class GameState {
     );
   }
 
+  GameState copyWithOneLessAttempt() {
+    return copyWith(attempts: attempts - 1);
+  }
+
   GameState addGreaterThan(int newValue) {
     return copyWith(greaterThan: [...greaterThan, newValue]);
   }

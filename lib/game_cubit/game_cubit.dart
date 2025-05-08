@@ -33,7 +33,7 @@ class GameCubit extends Cubit<GameState> {
     return super.close();
   }
 
-  void onSubmittValue(String value) {
-    emit(state.addLessThan(1));
+  void onSubmittValue(int value) {
+    emit(state.addLessThan(value).copyWithOneLessAttempt());
   }
 }
