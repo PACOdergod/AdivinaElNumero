@@ -26,7 +26,7 @@ class PrincipalPage extends StatelessWidget {
         ],
       ),
       backgroundColor: Colors.grey.shade700,
-      body: const BodyPage(),
+      body: const SingleChildScrollView(child: BodyPage()),
     );
   }
 }
