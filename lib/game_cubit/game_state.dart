@@ -1,6 +1,6 @@
 part of 'game_cubit.dart';
 
-class GameState {
+class GameState extends Equatable {
   final List<int> greaterThan;
   final List<int> lessThan;
   final int attempts;
@@ -41,4 +41,12 @@ class GameState {
 
   factory GameState.empty() => const GameState(
       greaterThan: [], lessThan: [], attempts: 0, secretNumber: 0);
+
+  @override
+  List<Object?> get props => [
+        greaterThan,
+        lessThan,
+        attempts,
+        secretNumber,
+      ];
 }

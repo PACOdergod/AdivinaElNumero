@@ -1,6 +1,6 @@
 part of 'record_games_cubit.dart';
 
-class RecordGamesState {
+class RecordGamesState extends Equatable {
   final List<(bool, int)> values;
 
   const RecordGamesState({required this.values});
@@ -18,4 +18,7 @@ class RecordGamesState {
   RecordGamesState copyWithNewValue(bool success, int value) {
     return copyWith(values: [...values, (success, value)]);
   }
+
+  @override
+  List<Object?> get props => [...values];
 }

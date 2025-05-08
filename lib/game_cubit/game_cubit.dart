@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:equatable/equatable.dart';
 
 import '../difficult_cubit/difficult_cubit.dart';
 import '../record_cubit/record_games_cubit.dart';
@@ -25,6 +26,12 @@ class GameCubit extends Cubit<GameState> {
     difficultCubit.reemitCurrentState();
   }
 
+  @override
+  Future<void> close() {
+    _difficultSubscription.cancel();
+    return super.close();
+  }
+
   void _initNewGame(DifficultState difficultState) {
     emit(GameState(
         greaterThan: [],
@@ -35,12 +42,6 @@ class GameCubit extends Cubit<GameState> {
 
   static int _generateRandomNumber(int maximum) {
     return 5;
-  }
-
-  @override
-  Future<void> close() {
-    _difficultSubscription.cancel();
-    return super.close();
   }
 
   void onSubmittValue(int userNumber) {
@@ -57,11 +58,6 @@ class GameCubit extends Cubit<GameState> {
   void _onSuccess(int userNumber) {
     recordGamesCubit.addNewValue(true, userNumber);
 
-    final newState = GameState(
-        greaterThan: [],
-        lessThan: [],
-        attempts: lastDifficultState?.attempts ?? 5,
-        secretNumber: _generateRandomNumber(lastDifficultState?.maximum ?? 10));
-    emit(newState);
+    difficultCubit.reemitCurrentState();
   }
 }
