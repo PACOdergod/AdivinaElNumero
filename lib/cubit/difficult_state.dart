@@ -40,7 +40,7 @@ final class DifficultStateAdvanced extends DifficultState {
   int get attempts => 15;
 }
 
-final class DifficultStateExtrem extends DifficultState {
+final class DifficultStateExtreme extends DifficultState {
   @override
   int get minimum => 1;
 
