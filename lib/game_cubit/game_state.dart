@@ -38,4 +38,7 @@ class GameState {
   GameState addLessThan(int newValue) {
     return copyWith(lessThan: [...lessThan, newValue]);
   }
+
+  factory GameState.empty() => const GameState(
+      greaterThan: [], lessThan: [], attempts: 0, secretNumber: 0);
 }

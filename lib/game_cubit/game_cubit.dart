@@ -17,19 +17,12 @@ class GameCubit extends Cubit<GameState> {
   GameCubit({
     required this.difficultCubit,
     required this.recordGamesCubit,
-  }) : super(initialGameState()) {
+  }) : super(GameState.empty()) {
     _difficultSubscription = difficultCubit.stream.listen((difficultState) {
       lastDifficultState = difficultState;
       _initNewGame(difficultState);
     });
-  }
-
-  static GameState initialGameState() {
-    return GameState(
-        greaterThan: [],
-        lessThan: [],
-        attempts: 5,
-        secretNumber: _generateRandomNumber(10));
+    difficultCubit.reemitCurrentState();
   }
 
   void _initNewGame(DifficultState difficultState) {

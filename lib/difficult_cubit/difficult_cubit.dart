@@ -6,19 +6,13 @@ part 'difficult_state.dart';
 class DifficultCubit extends Cubit<DifficultState> {
   DifficultCubit() : super(DifficultStateEasy());
 
-  void selectEasy() {
-    emit(DifficultStateEasy());
-  }
+  void reemitCurrentState() => emit(state);
 
-  void selectMedium() {
-    emit(DifficultStateMedium());
-  }
+  void selectEasy() => emit(DifficultStateEasy());
 
-  void selectAdvanced() {
-    emit(DifficultStateAdvanced());
-  }
+  void selectMedium() => emit(DifficultStateMedium());
 
-  void selectExtreme() {
-    emit(DifficultStateExtreme());
-  }
+  void selectAdvanced() => emit(DifficultStateAdvanced());
+
+  void selectExtreme() => emit(DifficultStateExtreme());
 }
