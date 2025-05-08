@@ -1,5 +1,7 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
+import 'package:desafio/game_cubit/game_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 
 import '../difficult_cubit/difficult_cubit.dart';
@@ -12,6 +14,7 @@ class PrincipalContent extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final numberController = useTextEditingController();
+    final gameCubit = context.read<GameCubit>();
 
     return Column(
       children: <Widget>[
@@ -40,6 +43,9 @@ class PrincipalContent extends HookWidget {
                   hintText: '####',
                   hintStyle: const TextStyle(color: Colors.grey),
                 ),
+                onSubmitted: (value) {
+                  gameCubit.onSubmittValue(value);
+                },
               ),
             ),
             Text(
@@ -57,17 +63,21 @@ class PrincipalContent extends HookWidget {
           children: [
             const SizedBox(width: 15),
             Expanded(
-              child: CustomContainerList(
-                title: 'Mayor que',
-                childs: [
-                  const Text(
-                    '3',
-                    style: TextStyle(
-                        fontSize: 21,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.white),
-                  )
-                ],
+              child: BlocBuilder<GameCubit, GameState>(
+                builder: (context, state) {
+                  return CustomContainerList(
+                    title: 'Mayor que',
+                    childs: state.greaterThan
+                        .map((e) => Text(
+                              e.toString(),
+                              style: TextStyle(
+                                  fontSize: 21,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.white),
+                            ))
+                        .toList(),
+                  );
+                },
               ),
             ),
             const SizedBox(width: 15),
