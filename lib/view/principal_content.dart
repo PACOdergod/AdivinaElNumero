@@ -82,17 +82,21 @@ class PrincipalContent extends HookWidget {
             ),
             const SizedBox(width: 15),
             Expanded(
-              child: CustomContainerList(
-                title: 'Menor que',
-                childs: [
-                  const Text(
-                    '3',
-                    style: TextStyle(
-                        fontSize: 21,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.white),
-                  )
-                ],
+              child: BlocBuilder<GameCubit, GameState>(
+                builder: (context, state) {
+                  return CustomContainerList(
+                    title: 'Menor que',
+                    childs: state.lessThan
+                        .map((e) => Text(
+                              e.toString(),
+                              style: TextStyle(
+                                  fontSize: 21,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.white),
+                            ))
+                        .toList(),
+                  );
+                },
               ),
             ),
             const SizedBox(width: 15),

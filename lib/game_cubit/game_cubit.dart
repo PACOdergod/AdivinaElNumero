@@ -6,6 +6,6 @@ class GameCubit extends Cubit<GameState> {
   GameCubit() : super(GameState.empty());
 
   void onSubmittValue(String value) {
-    emit(state.addGreaterThan(1));
+    emit(state.addLessThan(1));
   }
 }
