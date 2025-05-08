@@ -1,16 +1,21 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 import 'package:desafio/game_cubit/game_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 
 class PrincipalContent extends HookWidget {
-  const PrincipalContent({super.key});
+  const PrincipalContent({
+    super.key,
+    required this.gameCubit,
+  });
+
+  final GameCubit gameCubit;
 
   @override
   Widget build(BuildContext context) {
     final numberController = useTextEditingController();
-    final gameCubit = context.read<GameCubit>();
 
     return Column(
       children: <Widget>[
@@ -39,9 +44,10 @@ class PrincipalContent extends HookWidget {
                   hintText: '####',
                   hintStyle: const TextStyle(color: Colors.grey),
                 ),
+                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                keyboardType: TextInputType.number,
                 onSubmitted: (value) {
-                  final _ = int.tryParse(value);
-                  gameCubit.onSubmittValue(0);
+                  _onSubmittValue(context, value);
                 },
               ),
             ),
@@ -112,6 +118,11 @@ class PrincipalContent extends HookWidget {
         ),
       ],
     );
+  }
+
+  void _onSubmittValue(BuildContext context, String value) {
+    final _ = int.tryParse(value);
+    gameCubit.onSubmittValue(0);
   }
 }
 
