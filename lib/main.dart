@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'difficult_cubit/difficult_cubit.dart';
-import 'view/body_page.dart';
+import 'view/principal_page.dart';
 
 void main() => runApp(const MyApp());
 
