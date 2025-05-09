@@ -45,19 +45,27 @@ class GameCubit extends Cubit<GameState> {
   }
 
   void onSubmittValue(int userNumber) {
+    if (state.secretNumber == userNumber) {
+      onSuccess(userNumber);
+      return;
+    }
+
+    if (state.attempts == 1) {
+      // último intento
+      recordGamesCubit.addNewValue(false, userNumber);
+      _initNewGame(lastDifficultState ?? DifficultStateEasy());
+      return;
+    }
+
     if (state.secretNumber > userNumber) {
       emit(state.addGreaterThan(userNumber).copyWithOneLessAttempt());
     } else if (state.secretNumber < userNumber) {
       emit(state.addLessThan(userNumber).copyWithOneLessAttempt());
-    } else {
-      // Exito
-      _onSuccess(userNumber);
     }
   }
 
-  void _onSuccess(int userNumber) {
+  void onSuccess(int userNumber) {
     recordGamesCubit.addNewValue(true, userNumber);
-
     _initNewGame(lastDifficultState ?? DifficultStateEasy());
   }
 }
