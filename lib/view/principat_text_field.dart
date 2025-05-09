@@ -1,17 +1,33 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 
 import '../game_cubit/game_cubit.dart';
 
-class PrincipatTextField extends HookWidget {
+class PrincipatTextField extends StatefulWidget {
   const PrincipatTextField({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final numberController = useTextEditingController();
+  State<PrincipatTextField> createState() => _PrincipatTextFieldState();
+}
 
+class _PrincipatTextFieldState extends State<PrincipatTextField> {
+  late final TextEditingController numberController;
+
+  @override
+  void initState() {
+    numberController = TextEditingController();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    numberController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return TextField(
       controller: numberController,
       decoration: InputDecoration(
@@ -30,11 +46,11 @@ class PrincipatTextField extends HookWidget {
         floatingLabelStyle: const TextStyle(color: Colors.blue),
         hintText: '####',
         hintStyle: const TextStyle(color: Colors.grey),
+        errorText: 'Error',
       ),
       inputFormatters: [FilteringTextInputFormatter.digitsOnly],
       keyboardType: TextInputType.number,
       onSubmitted: (value) {
-        numberController.clear();
         _onSubmittValue(context, value);
       },
     );
@@ -45,5 +61,6 @@ class PrincipatTextField extends HookWidget {
 
     final gameCubit = context.read<GameCubit>();
     gameCubit.onSubmittValue(number);
+    numberController.clear();
   }
 }
