@@ -1,12 +1,11 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
-import 'package:desafio/game_cubit/game_cubit.dart';
-import 'package:desafio/record_cubit/record_games_cubit.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 
-class PrincipalContent extends HookWidget {
+import '../game_cubit/game_cubit.dart';
+import '../record_cubit/record_games_cubit.dart';
+import 'principat_text_field.dart';
+
+class PrincipalContent extends StatelessWidget {
   const PrincipalContent({
     super.key,
     required this.gameCubit,
@@ -16,8 +15,6 @@ class PrincipalContent extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final numberController = useTextEditingController();
-
     return Column(
       children: <Widget>[
         Row(
@@ -26,38 +23,13 @@ class PrincipalContent extends HookWidget {
             Container(
               margin: const EdgeInsets.only(left: 40),
               width: 180,
-              child: TextField(
-                controller: numberController,
-                decoration: InputDecoration(
-                  contentPadding: const EdgeInsets.all(16),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8),
-                    borderSide: const BorderSide(color: Colors.grey),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8),
-                    borderSide: const BorderSide(color: Colors.blue, width: 2),
-                  ),
-                  labelText: 'Number',
-                  labelStyle: const TextStyle(
-                      color: Colors.grey, fontWeight: FontWeight.w500),
-                  floatingLabelStyle: const TextStyle(color: Colors.blue),
-                  hintText: '####',
-                  hintStyle: const TextStyle(color: Colors.grey),
-                ),
-                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                keyboardType: TextInputType.number,
-                onSubmitted: (value) {
-                  numberController.clear();
-                  _onSubmittValue(context, value);
-                },
-              ),
+              child: PrincipatTextField(key: GlobalKey()),
             ),
             BlocBuilder<GameCubit, GameState>(
               builder: (context, state) {
                 return Text(
                   'Intentos\n${state.attempts}',
-                  style: TextStyle(
+                  style: const TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.w600,
                       color: Colors.white),
@@ -79,7 +51,7 @@ class PrincipalContent extends HookWidget {
                     childs: state.greaterThan
                         .map((e) => Text(
                               e.toString(),
-                              style: TextStyle(
+                              style: const TextStyle(
                                   fontSize: 21,
                                   fontWeight: FontWeight.w600,
                                   color: Colors.white),
@@ -98,7 +70,7 @@ class PrincipalContent extends HookWidget {
                     childs: state.lessThan
                         .map((e) => Text(
                               e.toString(),
-                              style: TextStyle(
+                              style: const TextStyle(
                                   fontSize: 21,
                                   fontWeight: FontWeight.w600,
                                   color: Colors.white),
@@ -132,12 +104,6 @@ class PrincipalContent extends HookWidget {
         ),
       ],
     );
-  }
-
-  void _onSubmittValue(BuildContext context, String value) {
-    final number = int.tryParse(value) ?? 1;
-
-    gameCubit.onSubmittValue(number);
   }
 }
 
