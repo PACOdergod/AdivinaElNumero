@@ -37,6 +37,7 @@ class _PrincipatTextFieldState extends State<PrincipatTextField> {
       children: [
         TextField(
           controller: numberController,
+          style: const TextStyle(color: Colors.white),
           decoration: InputDecoration(
             contentPadding: const EdgeInsets.all(16),
             enabledBorder: OutlineInputBorder(
