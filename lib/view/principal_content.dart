@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 
 import '../game_cubit/game_cubit.dart';
 import '../record_cubit/record_games_cubit.dart';
@@ -111,7 +110,7 @@ class PrincipalContent extends StatelessWidget {
   }
 }
 
-class _CustomContainerList extends HookWidget {
+class _CustomContainerList extends StatelessWidget {
   const _CustomContainerList({
     super.key,
     required this.title,
@@ -123,17 +122,6 @@ class _CustomContainerList extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = useScrollController();
-
-    useEffect(() {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        if (controller.hasClients) {
-          controller.jumpTo(controller.position.maxScrollExtent);
-        }
-      });
-      return null;
-    }, []);
-
     return Container(
       height: 300,
       decoration: BoxDecoration(
@@ -159,7 +147,6 @@ class _CustomContainerList extends HookWidget {
           const SizedBox(height: 5),
           Expanded(
             child: ListView(
-              controller: controller,
               children: childs
                   .map(
                     (e) => Container(
