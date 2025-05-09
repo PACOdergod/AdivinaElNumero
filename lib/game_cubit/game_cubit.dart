@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
@@ -37,11 +38,13 @@ class GameCubit extends Cubit<GameState> {
         greaterThan: const [],
         lessThan: const [],
         attempts: difficultState.attempts,
-        secretNumber: _generateRandomNumber(difficultState.maximum)));
+        secretNumber: _generateRandomNumber(
+            difficultState.minimum, difficultState.maximum)));
   }
 
-  static int _generateRandomNumber(int maximum) {
-    return 5;
+  static int _generateRandomNumber(int min, int max) {
+    Random random = Random();
+    return min + random.nextInt(max - min + 1);
   }
 
   void onSubmittValue(int userNumber) {
