@@ -52,12 +52,7 @@ class BodyPage extends StatelessWidget {
         BlocBuilder<DifficultCubit, DifficultState>(
           builder: (context, state) {
             return Text(
-              switch (state) {
-                DifficultStateEasy() => 'Facil',
-                DifficultStateMedium() => 'Normal',
-                DifficultStateAdvanced() => 'Dificil',
-                DifficultStateExtreme() => 'Extremo',
-              },
+              difficultText(state),
               style: const TextStyle(color: Colors.white, fontSize: 15),
             );
           },
@@ -94,5 +89,14 @@ class BodyPage extends StatelessWidget {
         )
       ],
     );
+  }
+
+  String difficultText(DifficultState state) {
+    return switch (state) {
+      DifficultStateEasy() => 'Facil ${state.minimum}-${state.maximum}',
+      DifficultStateMedium() => 'Normal ${state.minimum}-${state.maximum}',
+      DifficultStateAdvanced() => 'Dificil ${state.minimum}-${state.maximum}',
+      DifficultStateExtreme() => 'Extremo ${state.minimum}-${state.maximum}',
+    };
   }
 }
