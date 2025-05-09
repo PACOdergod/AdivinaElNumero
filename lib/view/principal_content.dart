@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 
 import '../game_cubit/game_cubit.dart';
 import '../record_cubit/record_games_cubit.dart';
@@ -47,6 +48,7 @@ class PrincipalContent extends StatelessWidget {
               child: BlocBuilder<GameCubit, GameState>(
                 builder: (context, state) {
                   return _CustomContainerList(
+                    key: GlobalKey(),
                     title: 'Mayor que',
                     childs: state.greaterThan
                         .map((e) => Text(
@@ -66,6 +68,7 @@ class PrincipalContent extends StatelessWidget {
               child: BlocBuilder<GameCubit, GameState>(
                 builder: (context, state) {
                   return _CustomContainerList(
+                    key: GlobalKey(),
                     title: 'Menor que',
                     childs: state.lessThan
                         .map((e) => Text(
@@ -107,7 +110,7 @@ class PrincipalContent extends StatelessWidget {
   }
 }
 
-class _CustomContainerList extends StatelessWidget {
+class _CustomContainerList extends HookWidget {
   const _CustomContainerList({
     super.key,
     required this.title,
@@ -119,6 +122,17 @@ class _CustomContainerList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final controller = useScrollController();
+
+    useEffect(() {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (controller.hasClients) {
+          controller.jumpTo(controller.position.maxScrollExtent);
+        }
+      });
+      return null;
+    }, []);
+
     return Container(
       height: 300,
       decoration: BoxDecoration(
@@ -141,8 +155,22 @@ class _CustomContainerList extends StatelessWidget {
               ),
             ),
           ),
-          const SizedBox(height: 10),
-          ...childs,
+          const SizedBox(height: 5),
+          Expanded(
+            child: ListView(
+              controller: controller,
+              children: childs
+                  .map(
+                    (e) => Container(
+                      width: double.infinity,
+                      color: Colors.transparent,
+                      alignment: Alignment.center,
+                      child: e,
+                    ),
+                  )
+                  .toList(),
+            ),
+          ),
         ],
       ),
     );
