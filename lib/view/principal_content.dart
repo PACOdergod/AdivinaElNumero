@@ -88,6 +88,7 @@ class PrincipalContent extends StatelessWidget {
               child: BlocBuilder<RecordGamesCubit, RecordGamesState>(
                 builder: (context, state) {
                   return _CustomContainerList(
+                    key: GlobalKey(),
                     title: 'Historial',
                     childs: state.values
                         .map((e) => Text(
