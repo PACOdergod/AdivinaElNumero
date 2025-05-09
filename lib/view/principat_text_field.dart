@@ -33,47 +33,44 @@ class _PrincipatTextFieldState extends State<PrincipatTextField> {
 
   @override
   Widget build(BuildContext context) {
-    return HookBuilder(builder: (context) {
-      useListenable(errorMessageNotifier);
-
-      return TextField(
-        controller: numberController,
-        decoration: InputDecoration(
-          contentPadding: const EdgeInsets.all(16),
-          enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(8),
-            borderSide: const BorderSide(color: Colors.grey),
+    return Column(
+      children: [
+        TextField(
+          controller: numberController,
+          decoration: InputDecoration(
+            contentPadding: const EdgeInsets.all(16),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(8),
+              borderSide: const BorderSide(color: Colors.grey),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(8),
+              borderSide: const BorderSide(color: Colors.blue, width: 2),
+            ),
+            labelText: 'Number',
+            labelStyle: const TextStyle(
+                color: Colors.grey, fontWeight: FontWeight.w500),
+            floatingLabelStyle: const TextStyle(color: Colors.blue),
+            hintText: '####',
+            hintStyle: const TextStyle(color: Colors.grey),
           ),
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(8),
-            borderSide: const BorderSide(color: Colors.blue, width: 2),
-          ),
-          labelText: 'Number',
-          labelStyle:
-              const TextStyle(color: Colors.grey, fontWeight: FontWeight.w500),
-          floatingLabelStyle: const TextStyle(color: Colors.blue),
-          hintText: '####',
-          hintStyle: const TextStyle(color: Colors.grey),
-          errorText: errorMessageNotifier.value,
-          errorBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(8),
-            borderSide: const BorderSide(color: Colors.red, width: 2),
-          ),
-          focusedErrorBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(8),
-            borderSide: const BorderSide(color: Colors.red, width: 2),
-          ),
+          inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+          keyboardType: TextInputType.number,
+          onSubmitted: (value) {
+            onSubmittValue(context, value);
+          },
+          onChanged: (value) {
+            validateUserInput(value);
+          },
         ),
-        inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-        keyboardType: TextInputType.number,
-        onSubmitted: (value) {
-          onSubmittValue(context, value);
-        },
-        onChanged: (value) {
-          validateUserInput(value);
-        },
-      );
-    });
+        const SizedBox(height: 5),
+        HookBuilder(builder: (context) {
+          useListenable(errorMessageNotifier);
+          return Text(errorMessageNotifier.value ?? '',
+              style: const TextStyle(color: Colors.red));
+        })
+      ],
+    );
   }
 
   void validateUserInput(String input) {
@@ -93,9 +90,9 @@ class _PrincipatTextFieldState extends State<PrincipatTextField> {
     final difficultState = difficultCubit.state;
 
     if (number < difficultState.minimum) {
-      errorMessageNotifier.value = 'El número está fuera del rango permitido';
+      errorMessageNotifier.value = 'Número fuera de rango';
     } else if (number > difficultState.maximum) {
-      errorMessageNotifier.value = 'El número está fuera del rango permitido';
+      errorMessageNotifier.value = 'Número fuera de rango';
     } else {
       errorMessageNotifier.value = null;
     }
